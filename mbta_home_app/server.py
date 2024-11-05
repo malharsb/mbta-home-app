@@ -1,14 +1,13 @@
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
 import requests
 import socket
+import os
 
 from .red_line_descriptions import *
 
 
 BASE_URL = "https://api-v3.mbta.com"
-API_KEY = "efa26e8f5487422b91744e3cdd697d2f"
-
-
 SOCKET_HOST = "127.0.0.1"
 SOCKET_PORT = 65432
 
@@ -57,9 +56,11 @@ class MBTAAPIClient:
     Class to communicate with the MBTA Public API
     """
     def __init__(self):
-        self.api_key = API_KEY
         self.base_url = BASE_URL
-    
+
+        # Load API_KEY
+        load_dotenv()
+        self.api_key = os.getenv("API_KEY")
 
     def get_live_locations(self, route):
         endpoint = f"{self.base_url}/vehicles"
